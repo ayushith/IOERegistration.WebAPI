@@ -12,10 +12,15 @@ namespace IOERegistration.WebAPI.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<CourseDegreeLevel, KeyValuePairResource>();
+            CreateMap<CourseDegreeLevel, KeyValuePairResource>()
+                .ForMember(k => k.Name, opt => opt.MapFrom(c => c.DegreeLevelName));
 
             CreateMap<CourseDegreeLevelQueryResource, CourseDegreeLevelQuery>();
 
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
+
+            CreateMap<SaveCourseDegreeLevelResource, CourseDegreeLevel>()
+                .ForMember(c => c.Id, opt => opt.Ignore());
         }
     }
 }

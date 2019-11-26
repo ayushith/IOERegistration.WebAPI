@@ -20,12 +20,13 @@ namespace IOERegistration.WebAPI.Persistence
         }
         public void Add(CourseDegreeLevel courseDegreeLevel)
         {
-            throw new NotImplementedException();
+            context.CourseDegreeLevels.Add(courseDegreeLevel);
         }
 
-        public Task<CourseDegreeLevel> GetCourseDegreeLevel(int id)
+        public async Task<CourseDegreeLevel> GetCourseDegreeLevel(int id)
         {
-            throw new NotImplementedException();
+            return await context.CourseDegreeLevels
+                .SingleOrDefaultAsync(c => c.Id == id); 
         }
 
         public async Task<QueryResult<CourseDegreeLevel>> GetCourseDegreeLevels(CourseDegreeLevelQuery filter)
@@ -37,7 +38,7 @@ namespace IOERegistration.WebAPI.Persistence
 
             if (!string.IsNullOrEmpty(filter.Name))
             {
-                query = query.Where(c => c.DegreeLevelName == filter.Name);
+                query = query.Where(c => c.DegreeLevelName.Contains(filter.Name));
             }
 
             var columnsMap = new Dictionary<string, Expression<Func<CourseDegreeLevel, object>>>()
@@ -59,7 +60,7 @@ namespace IOERegistration.WebAPI.Persistence
 
         public void Remove(CourseDegreeLevel courseDegreeLevel)
         {
-            throw new NotImplementedException();
+            context.CourseDegreeLevels.Remove(courseDegreeLevel);
         }
     }
 }
