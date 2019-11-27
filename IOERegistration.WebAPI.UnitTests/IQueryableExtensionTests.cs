@@ -103,5 +103,39 @@ namespace IOERegistration.WebAPI.UnitTests
 
             Assert.That(result.FirstOrDefault().DegreeLevelName == "Master", Is.True);
         }
+
+        [Test]
+        public void ApplyPaging_PageIsLessThanZero_SetPage()
+        {
+            var query = new List<CourseDegreeLevel>()
+            {
+                new CourseDegreeLevel {  Id = 1 , CreatedBy = "Admin", DegreeLevelCode = 'B', DegreeLevelName = "Bachelor"  },
+                new CourseDegreeLevel {  Id = 2 , CreatedBy = "Admin", DegreeLevelCode = 'M', DegreeLevelName = "Master"  }
+            }
+            .AsQueryable();
+
+            var filter = new CourseDegreeLevelQuery() { Page = 0 };
+
+            var result = query.ApplyPaging(filter);
+
+            Assert.That(result.Count() == 2);
+        }
+
+        [Test]
+        public void ApplyPaging_PageSizeIsLessThanZero_SetPage()
+        {
+            var query = new List<CourseDegreeLevel>()
+            {
+                new CourseDegreeLevel {  Id = 1 , CreatedBy = "Admin", DegreeLevelCode = 'B', DegreeLevelName = "Bachelor"  },
+                new CourseDegreeLevel {  Id = 2 , CreatedBy = "Admin", DegreeLevelCode = 'M', DegreeLevelName = "Master"  }
+            }
+            .AsQueryable();
+
+            var filter = new CourseDegreeLevelQuery() { PageSize = 0 };
+
+            var result = query.ApplyPaging(filter);
+
+            Assert.That(result.Count() == 2);
+        }
     }
 }
